@@ -1,0 +1,42 @@
+---
+title: "Chennai Covid Street Level Heatmap"
+author: "Data from Chennai Corporation http://covid19.chennaicorporation.gov.in/covid/positivecases"
+date: "05/05/2021"
+output: html_document
+---
+
+```{r packages, results="hide",echo=FALSE, message=FALSE}
+lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly"), library, character.only = TRUE)
+Chennai_covid_data<-read.table("/home/arunkumar/data_covid.csv",header=TRUE, row.names=NULL)
+Chennai_covid_data<-tibble(Chennai_covid_data)
+
+Area_Chennai_covid_data<-Chennai_covid_data %>% 
+  group_by(importDate,Zone,Area) %>% 
+  summarize(
+    impactedStreets=length(Street),
+    countOfCases=sum(Cases)
+  )
+Zone12_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(12) ) %>% ungroup()
+
+```
+
+## Zone 12 - Alandur
+
+```{r echo=FALSE}
+ggplot(Zone12_Chennai_covid_data
+       ,aes(importDate, Area, fill= impactedStreets)) + 
+  geom_tile() +
+  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  ylab(label = "Area") +
+  xlab(label = "Date") +
+  ggtitle(label = "Zone 12 COVID Impacted Streets") +
+  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone12_Chennai_covid_data$Area) ))) ) +
+  theme_classic() +
+  theme(strip.placement = "outside",
+          plot.title = element_text(hjust = 0.5),
+          axis.title.y = element_blank(), # Remove y-axis title
+          strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF")
+      )
+
+```
