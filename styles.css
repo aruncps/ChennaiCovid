@@ -1,0 +1,8 @@
+/* A normal CSS rule, will apply to all screen sizes */
+body {
+    font-size: 14px;
+}
+img {
+  max-width: 40%;
+  height: auto;
+}
