@@ -6,7 +6,7 @@ lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly"), library, characte
 # DEFINE Variables
 currDate<-Sys.Date()
 file_name<-paste0("data_covid_",currDate)
-master_file_name<-paste0("data_covid.csv")
+master_file_name<-paste0("/home/arunkumar/Documents/GitHub/ChennaiCovid/data_covid.csv")
 data_covid<-tibble()
   
 # HTML extract
@@ -35,6 +35,12 @@ data_covid_ab_3<-tibble(data_covid_ab_3)
 data_covid<-union_all(data_covid_lt_3,data_covid_ab_3) 
 data_covid<-data_covid %>% select(Zone,Ward,Area,Location,Street,Cases,importDate) %>% distinct()
 
+# Compare data from Today
+data_covid %>% group_by(importDate) %>% summarize(n())
+# to past data
+Chennai_covid_data<-read.table(master_file_name,header=TRUE, row.names=NULL)
+Chennai_covid_data<-tibble(Chennai_covid_data)
+Chennai_covid_data %>% group_by(importDate) %>% summarise(n())
 # Write a copy 
 # write.table(data_covid, master_file_name, append = TRUE, col.names = FALSE)
 
