@@ -10,6 +10,7 @@ output:
 * **Disclaimer:** No corrections were applied to fix the typos. *Known Issues: 1. Spelling mistakes, 2. Zone mismatches*
 
 ## List of Zones: {#loz}
+  + [All Zones](#anchor00)
   + [Zone 1 - Thiruvottiyur](#anchor01)
   + [Zone 2 - Manali](#anchor02)
   + [Zone 3 - Madhavaram](#anchor03)
@@ -27,10 +28,33 @@ output:
   + [Zone 15 - Sholinganallur](#anchor15)
 
 ```{r packages, results="hide",echo=FALSE, message=FALSE}
+#------- Packages
 lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly"), library, character.only = TRUE)
+#------- Zone Dictionary
+Zone <- data.frame(Zone = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+                 ZoneName = c("Zone 01 - Thiruvottiyur","Zone 02 - Manali"
+                              ,"Zone 03 - Madhavaram","Zone 04 - Tondiarpet"
+                              ,"Zone 05 - Royapuram","Zone 06 - Thiru. Vi. Ka. Nagar"
+                              ,"Zone 07 - Ambattur","Zone 08 - Anna Nagar"
+                              ,"Zone 09 - Teynampet","Zone 10 - Kodambakkam"
+                              ,"Zone 11 - Valasaravakkam","Zone 12 - Alandur"
+                              ,"Zone 13 - Adyar","Zone 14 - Perungudi"
+                              ,"Zone 15 - Sholinganallur")
+                    )
+#------- Import CSV
 Chennai_covid_data<-read.table("/home/arunkumar/Documents/GitHub/ChennaiCovid/data_covid.csv",header=TRUE, row.names=NULL)
 Chennai_covid_data<-tibble(Chennai_covid_data)
 
+#------- Zone level Dataframe
+Zone_Chennai_covid_data<-Chennai_covid_data %>% 
+  group_by(importDate,Zone) %>% 
+  summarize(
+    impactedStreets=length(Street),
+    countOfCases=sum(Cases)
+  )
+Zone_Chennai_covid_data<- Zone_Chennai_covid_data %>% inner_join(Zone, by = c("Zone"="Zone"))
+
+#------- Area level Dataframe
 Area_Chennai_covid_data<-Chennai_covid_data %>% 
   group_by(importDate,Zone,Area) %>% 
   summarize(
@@ -38,13 +62,36 @@ Area_Chennai_covid_data<-Chennai_covid_data %>%
     countOfCases=sum(Cases)
   )
 ```
+
+## All Zones {#anchor00}
+```{r echo=FALSE, fig.height=6, fig.width=7}
+Zone0_Chennai_covid_data <- Zone_Chennai_covid_data %>% ungroup()
+
+ggplot(Zone0_Chennai_covid_data
+       ,aes(importDate, ZoneName, fill= impactedStreets)) + 
+  geom_tile(colour="white",size=0.25) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  ylab(label = "Area") +
+  xlab(label = "Date") +
+  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone0_Chennai_covid_data$ZoneName) ))) 
+                   ,position = "left") +
+  theme_classic() +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top"
+  )
+
+```
+
 ## Zone 1 - Thiruvottiyur {#anchor01}
 ```{r echo=FALSE}
 Zone1_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(1) ) %>% ungroup()
 
 ggplot(Zone1_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -66,7 +113,7 @@ Zone2_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(2) ) %
 
 ggplot(Zone2_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -88,7 +135,7 @@ Zone03_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(3) ) 
 
 ggplot(Zone03_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -110,7 +157,7 @@ Zone04_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(4) ) 
 
 ggplot(Zone04_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -127,12 +174,12 @@ ggplot(Zone04_Chennai_covid_data
 ```
 
 ## Zone 5 - Royapuram  {#anchor05}
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=7, fig.width=7}
 Zone05_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(5) ) %>% ungroup()
 
 ggplot(Zone05_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -149,12 +196,12 @@ ggplot(Zone05_Chennai_covid_data
 ```
 
 ## Zone 6 - Thiru. Vi. Ka. Nagar {#anchor06}
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone06_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(6) ) %>% ungroup()
 
 ggplot(Zone06_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -171,12 +218,12 @@ ggplot(Zone06_Chennai_covid_data
 ```
 
 ## Zone 7 - Ambattur {#anchor07}
-```{r echo=FALSE, fig.height=10, fig.width=7}
+```{r echo=FALSE, fig.height=10.5, fig.width=7}
 Zone07_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(7) ) %>% ungroup()
 
 ggplot(Zone07_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -193,12 +240,12 @@ ggplot(Zone07_Chennai_covid_data
 ```
 
 ## Zone 8 - Anna Nagar {#anchor08}
-```{r echo=FALSE}
+```{r echo=FALSE,fig.height=6, fig.width=7}
 Zone08_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(8) ) %>% ungroup()
 
 ggplot(Zone08_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -215,12 +262,12 @@ ggplot(Zone08_Chennai_covid_data
 ```
 
 ## Zone 9 - Teynampet {#anchor09}
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone09_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(9) ) %>% ungroup()
 
 ggplot(Zone09_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -237,12 +284,12 @@ ggplot(Zone09_Chennai_covid_data
 ```
 
 ## Zone 10 - Kodambakkam {#anchor10}
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone10_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(10) ) %>% ungroup()
 
 ggplot(Zone10_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -264,7 +311,7 @@ Zone11_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(11) )
 
 ggplot(Zone11_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -286,7 +333,7 @@ Zone12_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(12) )
 
 ggplot(Zone12_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -303,12 +350,12 @@ ggplot(Zone12_Chennai_covid_data
 ```
 
 ## Zone 13 - Adyar {#anchor13}
-```{r echo=FALSE}
+```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone13_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(13) ) %>% ungroup()
 
 ggplot(Zone13_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -329,7 +376,7 @@ Zone14_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(14) )
 
 ggplot(Zone14_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
@@ -350,7 +397,7 @@ Zone15_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(15) )
 
 ggplot(Zone15_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
-  geom_tile() +
+  geom_tile(colour="white",size=0.25) +
   facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
