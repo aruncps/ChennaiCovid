@@ -35,13 +35,14 @@ data_covid_ab_3<-tibble(data_covid_ab_3)
 data_covid<-union_all(data_covid_lt_3,data_covid_ab_3) 
 data_covid<-data_covid %>% select(Zone,Ward,Area,Location,Street,Cases,importDate) %>% distinct()
 
-# Compare data from Today
-data_covid %>% group_by(importDate) %>% summarize(n())
-# to past data
+# Compare to past data
 Chennai_covid_data<-read.table(master_file_name,header=TRUE, row.names=NULL)
 Chennai_covid_data<-tibble(Chennai_covid_data)
 Chennai_covid_data %>% group_by(importDate) %>% summarise(n())
+# Compare data from Today
+data_covid %>% group_by(importDate) %>% summarize(n())
+
 # Write a copy 
-# write.table(data_covid, master_file_name, append = TRUE, col.names = FALSE)
+# write.table(data_covid, master_file_name, append = TRUE, col.names = FALSE, row.names = FALSE)
 
 #***** ETL COMPLETE *****#
