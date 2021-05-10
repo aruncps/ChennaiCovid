@@ -32,10 +32,10 @@ Area_Chennai_covid_data<-Chennai_covid_data %>%
     countOfCases=sum(Cases)
   )
 
-str(Zone0_Chennai_covid_data) 
+str(ZoneA_Chennai_covid_data) 
 
-Zone0_Chennai_covid_data <- Zone_Chennai_covid_data %>% ungroup()
-Zone0_Chennai_covid_data$importDateas.Date(as.character(Zone0_Chennai_covid_data$importDate))
+ZoneA_Chennai_covid_data <- Zone_Chennai_covid_data %>% ungroup()
+ZoneA_Chennai_covid_data$importDate<-as.Date(as.character(ZoneA_Chennai_covid_data$importDate))
 
 ggplot(Zone0_Chennai_covid_data
        ,aes(importDate, ZoneName, fill= impactedStreets)) + 
@@ -53,11 +53,28 @@ ggplot(Zone0_Chennai_covid_data
         legend.position="top"
   )
 
-ggplot(Zone0_Chennai_covid_data) +
+ggplot(ZoneA_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_line(aes(importDate, impactedStreets)) +
-  facet_grid(~ ZoneName, scales = "free_x")
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top"
+  ) +
+  facet_wrap(~ ZoneName, scales = "free_x", ncol = 3) 
 
 
+
+
+ggplot(iris, aes(Sepal.Width, Sepal.Length,
+                 fill = Petal.Width))+
+  geom_point(shape = 21)+
+  scale_fill_gradient(low="#fffaaf", high="#ff4747")
+
+  geom_line(aes(cyl, am, fill=NULL), mtcars)
 
 All_Chennai_covid_data<-Chennai_covid_data %>% 
   group_by(importDate) %>% 

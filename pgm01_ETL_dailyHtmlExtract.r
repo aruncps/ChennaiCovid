@@ -1,7 +1,7 @@
 #***** ETL START *****#
 
 # IMPORT Packages 
-lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly"), library, character.only = TRUE)
+lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly","scales"), library, character.only = TRUE)
 
 # DEFINE Variables
 currDate<-Sys.Date()

@@ -29,7 +29,7 @@ output:
 
 ```{r packages, results="hide",echo=FALSE, message=FALSE}
 #------- Packages
-lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly"), library, character.only = TRUE)
+lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly","scales","stringr"), library, character.only = TRUE)
 #------- Zone Dictionary
 Zone <- data.frame(Zone = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
                  ZoneName = c("Zone 01 - Thiruvottiyur","Zone 02 - Manali"
@@ -44,7 +44,7 @@ Zone <- data.frame(Zone = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
 #------- Import CSV
 Chennai_covid_data<-read.table("/home/arunkumar/Documents/GitHub/ChennaiCovid/data_covid.csv",header=TRUE, row.names=NULL)
 Chennai_covid_data<-tibble(Chennai_covid_data)
-
+Chennai_covid_data<- Chennai_covid_data %>% mutate(Area=str_to_title(Area))
 #------- Zone level Dataframe
 Zone_Chennai_covid_data<-Chennai_covid_data %>% 
   group_by(importDate,Zone) %>% 
@@ -61,11 +61,13 @@ Area_Chennai_covid_data<-Chennai_covid_data %>%
     impactedStreets=length(Street),
     countOfCases=sum(Cases)
   )
+
 ```
 
 ## All Zones {#anchor00}
 ```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone0_Chennai_covid_data <- Zone_Chennai_covid_data %>% ungroup()
+Zone0_Chennai_covid_data$importDate<-as.Date(as.character(Zone0_Chennai_covid_data$importDate))
 
 ggplot(Zone0_Chennai_covid_data
        ,aes(importDate, ZoneName, fill= impactedStreets)) + 
@@ -81,45 +83,91 @@ ggplot(Zone0_Chennai_covid_data
         axis.title.y = element_blank(), # Remove y-axis title
         strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
         legend.position="top"
-  )
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m")
 
 ```
+
+```{r echo=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone0_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ ZoneName, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 1 - Thiruvottiyur {#anchor01}
 ```{r echo=FALSE}
 Zone1_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(1) ) %>% ungroup()
+Zone1_Chennai_covid_data$importDate<-as.Date(as.character(Zone1_Chennai_covid_data$importDate))
 
 ggplot(Zone1_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone1_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone1_Chennai_covid_data$Area))) ) +
   theme_classic() +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
           strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
           legend.position="top"
-      )
+      ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m")
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone1_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 2 - Manali {#anchor02}
 ```{r echo=FALSE}
 Zone2_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(2) ) %>% ungroup()
+Zone2_Chennai_covid_data$importDate<-as.Date(as.character(Zone2_Chennai_covid_data$importDate))
 
 ggplot(Zone2_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone2_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone2_Chennai_covid_data$Area) )) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -128,20 +176,42 @@ ggplot(Zone2_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone2_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 3 - Madhavaram {#anchor03}
 ```{r echo=FALSE}
 Zone03_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(3) ) %>% ungroup()
+Zone03_Chennai_covid_data$importDate<-as.Date(as.character(Zone03_Chennai_covid_data$importDate))
 
 ggplot(Zone03_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone03_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone03_Chennai_covid_data$Area ))) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -150,20 +220,42 @@ ggplot(Zone03_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone03_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 4 - Tondiarpet {#anchor04}
 ```{r echo=FALSE}
 Zone04_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(4) ) %>% ungroup()
+Zone04_Chennai_covid_data$importDate<-as.Date(as.character(Zone04_Chennai_covid_data$importDate))
 
 ggplot(Zone04_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone04_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone04_Chennai_covid_data$Area ))) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -172,20 +264,42 @@ ggplot(Zone04_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone04_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 5 - Royapuram  {#anchor05}
 ```{r echo=FALSE, fig.height=7, fig.width=7}
 Zone05_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(5) ) %>% ungroup()
+Zone05_Chennai_covid_data$importDate<-as.Date(as.character(Zone05_Chennai_covid_data$importDate))
 
 ggplot(Zone05_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone05_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone05_Chennai_covid_data$Area ))) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -194,20 +308,42 @@ ggplot(Zone05_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=10.5, fig.width=7}
+ggplot(Zone05_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 6 - Thiru. Vi. Ka. Nagar {#anchor06}
 ```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone06_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(6) ) %>% ungroup()
+Zone06_Chennai_covid_data$importDate<-as.Date(as.character(Zone06_Chennai_covid_data$importDate))
 
 ggplot(Zone06_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone06_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone06_Chennai_covid_data$Area ))) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -216,20 +352,42 @@ ggplot(Zone06_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone06_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 7 - Ambattur {#anchor07}
 ```{r echo=FALSE, fig.height=10.5, fig.width=7}
 Zone07_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(7) ) %>% ungroup()
+Zone07_Chennai_covid_data$importDate<-as.Date(as.character(Zone07_Chennai_covid_data$importDate))
 
 ggplot(Zone07_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone07_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone07_Chennai_covid_data$Area) )) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -238,20 +396,42 @@ ggplot(Zone07_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=21, fig.width=7}
+ggplot(Zone07_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 8 - Anna Nagar {#anchor08}
 ```{r echo=FALSE,fig.height=6, fig.width=7}
 Zone08_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(8) ) %>% ungroup()
+Zone08_Chennai_covid_data$importDate<-as.Date(as.character(Zone08_Chennai_covid_data$importDate))
 
 ggplot(Zone08_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone08_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone08_Chennai_covid_data$Area ))) ) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -260,20 +440,42 @@ ggplot(Zone08_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone08_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 9 - Teynampet {#anchor09}
 ```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone09_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(9) ) %>% ungroup()
+Zone09_Chennai_covid_data$importDate<-as.Date(as.character(Zone09_Chennai_covid_data$importDate))
 
 ggplot(Zone09_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone09_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone09_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -282,20 +484,42 @@ ggplot(Zone09_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=10, fig.width=7}
+ggplot(Zone09_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 10 - Kodambakkam {#anchor10}
 ```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone10_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(10) ) %>% ungroup()
+Zone10_Chennai_covid_data$importDate<-as.Date(as.character(Zone10_Chennai_covid_data$importDate))
 
 ggplot(Zone10_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone10_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone10_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -304,20 +528,42 @@ ggplot(Zone10_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone10_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 11 - Valasaravakkam {#anchor11}
 ```{r echo=FALSE}
 Zone11_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(11) ) %>% ungroup()
+Zone11_Chennai_covid_data$importDate<-as.Date(as.character(Zone11_Chennai_covid_data$importDate))
 
 ggplot(Zone11_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone11_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone11_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -326,20 +572,42 @@ ggplot(Zone11_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone11_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 12 - Alandur {#anchor12}
 ```{r echo=FALSE}
 Zone12_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(12) ) %>% ungroup()
+Zone12_Chennai_covid_data$importDate<-as.Date(as.character(Zone12_Chennai_covid_data$importDate))
 
 ggplot(Zone12_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone12_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone12_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -348,20 +616,42 @@ ggplot(Zone12_Chennai_covid_data
       )
 
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone12_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 13 - Adyar {#anchor13}
 ```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone13_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(13) ) %>% ungroup()
+Zone13_Chennai_covid_data$importDate<-as.Date(as.character(Zone13_Chennai_covid_data$importDate))
 
 ggplot(Zone13_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone13_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone13_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -369,20 +659,42 @@ ggplot(Zone13_Chennai_covid_data
           legend.position="top"
       )
 ```
+```{r echo=FALSE, message=FALSE, fig.height=11, fig.width=7}
+ggplot(Zone13_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 14 - Perungudi {#anchor14}
 ```{r echo=FALSE}
 Zone14_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(14) ) %>% ungroup()
+Zone14_Chennai_covid_data$importDate<-as.Date(as.character(Zone14_Chennai_covid_data$importDate))
 
 ggplot(Zone14_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone14_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone14_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -390,26 +702,66 @@ ggplot(Zone14_Chennai_covid_data
           legend.position="top"
       )
 ```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone14_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
+```
+
+###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 15 - Sholinganallur {#anchor15}
 ```{r echo=FALSE}
 Zone15_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(15) ) %>% ungroup()
+Zone15_Chennai_covid_data$importDate<-as.Date(as.character(Zone15_Chennai_covid_data$importDate))
 
 ggplot(Zone15_Chennai_covid_data
        ,aes(importDate, Area, fill= impactedStreets)) + 
   geom_tile(colour="white",size=0.25) +
-  facet_grid(rows = vars(Zone), switch = "y", scales = "free_y", space = "free_y") +
+  facet_grid(switch = "y", scales = "free_y", space = "free_y") +
   scale_fill_gradient(low="#fffaaf", high="#ff4747") +
   ylab(label = "Area") +
   xlab(label = "Date") +
-  scale_y_discrete(limits = rev(levels(as.factor(droplevels(Zone15_Chennai_covid_data$Area) ))) ) +
+  scale_y_discrete(limits = rev(levels(as.factor(Zone15_Chennai_covid_data$Area) ))) +
   theme_classic() +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
           strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
           legend.position="top"
       )
+```
+```{r echo=FALSE, message=FALSE, fig.height=8, fig.width=7}
+ggplot(Zone15_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  facet_wrap(~ Area, scales = "free_x", ncol = 3) 
+
 ```
 
 ###### [Back to full list of Zones](#loz) {style="float:right"}
