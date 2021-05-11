@@ -3,6 +3,8 @@ title: "Chennai Covid Impacted Streets"
 output: 
   html_document:
     css: /home/arunkumar/Documents/GitHub/aruncps.github.io/assets/css/main.css
+    includes:
+       in_header: GA_Script.html
 ---
 * **Source:** [Data from Chennai Corporation](http://covid19.chennaicorporation.gov.in/covid/positivecases)
 * **Latest data import date:** `r format(Sys.time(), '%d %B, %Y')`
