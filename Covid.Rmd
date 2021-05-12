@@ -47,6 +47,15 @@ Zone <- data.frame(Zone = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
 Chennai_covid_data<-read.table("/home/arunkumar/Documents/GitHub/ChennaiCovid/data_covid.csv",header=TRUE, row.names=NULL)
 Chennai_covid_data<-tibble(Chennai_covid_data)
 Chennai_covid_data<- Chennai_covid_data %>% mutate(Area=str_to_title(Area))
+
+#------- Zone level Dataframe
+All_Chennai_covid_data<-Chennai_covid_data %>% 
+  group_by(importDate) %>% 
+  summarize(
+    impactedStreets=length(Street),
+    countOfCases=sum(Cases)
+  )
+
 #------- Zone level Dataframe
 Zone_Chennai_covid_data<-Chennai_covid_data %>% 
   group_by(importDate,Zone) %>% 
@@ -67,6 +76,29 @@ Area_Chennai_covid_data<-Chennai_covid_data %>%
 ```
 
 ## All Zones {#anchor00}
+```{r echo=FALSE, fig.height=3, fig.width=7}
+All_Chennai_covid_data <- All_Chennai_covid_data %>% ungroup()
+All_Chennai_covid_data$importDate<-as.Date(as.character(All_Chennai_covid_data$importDate))
+
+ggplot(All_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
+  geom_line(aes(importDate, impactedStreets)) +
+  geom_point(aes(importDate, impactedStreets),shape = 21, size=2) +
+  scale_fill_gradient(low="#fffaaf", high="#ff4747") +
+  theme_classic() +
+  xlab(label = "Date") +
+  theme(strip.placement = "outside",
+        plot.title = element_text(hjust = 0.5),
+        axis.title.y = element_blank(), # Remove y-axis title
+        strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
+        legend.position="top",
+        panel.spacing.x = unit(4, "mm")
+  ) +
+  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, NA))
+
+```
+```
+
 ```{r echo=FALSE, fig.height=6, fig.width=7}
 Zone0_Chennai_covid_data <- Zone_Chennai_covid_data %>% ungroup()
 Zone0_Chennai_covid_data$importDate<-as.Date(as.character(Zone0_Chennai_covid_data$importDate))
