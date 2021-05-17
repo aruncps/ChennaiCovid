@@ -170,7 +170,7 @@ ggplot(Zone1_Chennai_covid_data
 
 ```
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone1_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
@@ -216,7 +216,7 @@ ggplot(Zone2_Chennai_covid_data
       )
 
 ```
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone2_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
@@ -261,7 +261,7 @@ ggplot(Zone03_Chennai_covid_data
       )
 
 ```
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone03_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
@@ -307,7 +307,7 @@ ggplot(Zone04_Chennai_covid_data
       )
 
 ```
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone04_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
@@ -377,7 +377,7 @@ ggplot(Zone05_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
 ###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 6 - Thiru. Vi. Ka. Nagar {#anchor06}
-```{r echo=FALSE, warning=FALSE, fig.height=6, fig.width=7}
+```{r echo=FALSE, warning=FALSE, fig.height=7, fig.width=7}
 Zone06_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(6) ) %>% ungroup()
 Zone06_Chennai_covid_data$importDate<-as.Date(as.character(Zone06_Chennai_covid_data$importDate))
 
@@ -561,7 +561,7 @@ ggplot(Zone09_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
 ###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 10 - Kodambakkam {#anchor10}
-```{r echo=FALSE, warning=FALSE, fig.height=6, fig.width=7}
+```{r echo=FALSE, warning=FALSE, fig.height=7, fig.width=7}
 Zone10_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(10) ) %>% ungroup()
 Zone10_Chennai_covid_data$importDate<-as.Date(as.character(Zone10_Chennai_covid_data$importDate))
 
@@ -629,7 +629,7 @@ ggplot(Zone11_Chennai_covid_data
       )
 
 ```
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone11_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
@@ -699,7 +699,7 @@ ggplot(Zone12_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
 ###### [Back to full list of Zones](#loz) {style="float:right"}
 
 ## Zone 13 - Adyar {#anchor13}
-```{r echo=FALSE, warning=FALSE, fig.height=6, fig.width=7}
+```{r echo=FALSE, warning=FALSE, fig.height=7, fig.width=7}
 Zone13_Chennai_covid_data <- Area_Chennai_covid_data %>%filter(Zone %in% c(13) ) %>% ungroup()
 Zone13_Chennai_covid_data$importDate<-as.Date(as.character(Zone13_Chennai_covid_data$importDate))
 
@@ -765,7 +765,7 @@ ggplot(Zone14_Chennai_covid_data
           legend.position="top"
       )
 ```
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone14_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
@@ -810,7 +810,7 @@ ggplot(Zone15_Chennai_covid_data
           legend.position="top"
       )
 ```
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=8, fig.width=7}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=7, fig.width=7}
 ggplot(Zone15_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStreets)) +
   geom_bar(stat="identity", color="white", fill="#e3e3e3") +
   geom_line(aes(importDate, impactedStreets), linetype=2, size=.3, color="black") +
