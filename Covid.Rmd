@@ -7,7 +7,7 @@ output:
        in_header: GA_Script.html
 ---
 * **Source:** [Data from Chennai Corporation](http://covid19.chennaicorporation.gov.in/covid/positivecases)
-* **Latest data import date:** `r format(Sys.time(), '%d %B, %Y')`
+* **Latest data import date:** `r format(Sys.time()-100000, '%d %B, %Y')`
 * **Summary:** Chennai Corp. publishes COVID cases by street level. Using it, heatmap is generated to view the number of streets impacted in each Zone by Area.
 * **Disclaimer:** No corrections were applied to fix the typos. *Known Issues: 1. Spelling mistakes, 2. Zone mismatches*
 * **Inspired from:** Daily posting by [Prof Shamika Ravi](https://twitter.com/ShamikaRavi) from Jan'2020
