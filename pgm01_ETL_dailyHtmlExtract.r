@@ -42,11 +42,12 @@ Chennai_covid_data %>% group_by(importDate) %>% summarise(n())
 # Compare data from Today
 data_covid %>% group_by(importDate) %>% summarize(n())
 
-# Write a copy 
-# write.table(data_covid, master_file_name, append = TRUE, col.names = FALSE, row.names = FALSE)
-# file_move("/home/arunkumar/Documents/GitHub/ChennaiCovid/Covid.html", "/home/arunkumar/Documents/GitHub/aruncps.github.io/Covid.html")
-
 #***** ETL COMPLETE *****#
 # QA on more than 10 cases
 # http://covid19.chennaicorporation.gov.in/covid/positivecases/index_det.jsp?RptID=5
 # Chennai_covid_data %>% filter(Cases>10) %>% arrange(desc(importDate))
+
+# Write a copy 
+# write.table(data_covid, master_file_name, append = TRUE, col.names = FALSE, row.names = FALSE)
+# file_move("/home/arunkumar/Documents/GitHub/ChennaiCovid/Covid.html", "/home/arunkumar/Documents/GitHub/aruncps.github.io/Covid.html")
+
