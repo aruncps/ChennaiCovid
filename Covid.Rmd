@@ -95,7 +95,7 @@ ggplot(All_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStree
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   scale_y_continuous(expand = c(0, 0), limits = c(0, NA)) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -120,7 +120,7 @@ ggplot(Zone0_Chennai_covid_data
         strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
         legend.position="top"
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m")
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m")
 
 ```
 
@@ -139,7 +139,7 @@ ggplot(Zone0_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStr
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ ZoneName, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 ```
@@ -166,7 +166,7 @@ ggplot(Zone1_Chennai_covid_data
           strip.background = element_rect(fill = "#EEEEEE", color = "#FFFFFF"),
           legend.position="top"
       ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m")
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m")
 
 ```
 
@@ -185,7 +185,7 @@ ggplot(Zone1_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStr
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -207,7 +207,7 @@ ggplot(Zone2_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone2_Chennai_covid_data$Area) )) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -231,7 +231,7 @@ ggplot(Zone2_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedStr
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 ```
@@ -252,7 +252,7 @@ ggplot(Zone03_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone03_Chennai_covid_data$Area ))) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -276,7 +276,7 @@ ggplot(Zone03_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -298,7 +298,7 @@ ggplot(Zone04_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone04_Chennai_covid_data$Area ))) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -322,7 +322,7 @@ ggplot(Zone04_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -344,7 +344,7 @@ ggplot(Zone05_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone05_Chennai_covid_data$Area ))) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -368,7 +368,7 @@ ggplot(Zone05_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -390,7 +390,7 @@ ggplot(Zone06_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone06_Chennai_covid_data$Area ))) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -414,7 +414,7 @@ ggplot(Zone06_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -436,7 +436,7 @@ ggplot(Zone07_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone07_Chennai_covid_data$Area) )) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -460,7 +460,7 @@ ggplot(Zone07_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -482,7 +482,7 @@ ggplot(Zone08_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone08_Chennai_covid_data$Area ))) ) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -506,7 +506,7 @@ ggplot(Zone08_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -528,7 +528,7 @@ ggplot(Zone09_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone09_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -552,7 +552,7 @@ ggplot(Zone09_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -574,7 +574,7 @@ ggplot(Zone10_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone10_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -598,7 +598,7 @@ ggplot(Zone10_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -620,7 +620,7 @@ ggplot(Zone11_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone11_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -644,7 +644,7 @@ ggplot(Zone11_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -666,7 +666,7 @@ ggplot(Zone12_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone12_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -690,7 +690,7 @@ ggplot(Zone12_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -712,7 +712,7 @@ ggplot(Zone13_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone13_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -735,7 +735,7 @@ ggplot(Zone13_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -757,7 +757,7 @@ ggplot(Zone14_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone14_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -780,7 +780,7 @@ ggplot(Zone14_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
@@ -802,7 +802,7 @@ ggplot(Zone15_Chennai_covid_data
   xlab(label = "Date") +
   scale_y_discrete(limits = rev(levels(as.factor(Zone15_Chennai_covid_data$Area) ))) +
   theme_classic() +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   theme(strip.placement = "outside",
           plot.title = element_text(hjust = 0.5),
           axis.title.y = element_blank(), # Remove y-axis title
@@ -825,7 +825,7 @@ ggplot(Zone15_Chennai_covid_data,aes(importDate, impactedStreets,fill=impactedSt
         legend.position="top",
         panel.spacing.x = unit(4, "mm")
   ) +
-  scale_x_date(date_breaks = "1 week", date_minor_breaks = "1 day", date_labels = "%d/%m") +
+  scale_x_date(date_breaks = "1 month", date_minor_breaks = "1 day", date_labels = "%d/%m") +
   facet_wrap(~ Area, scales = "free_x", ncol = 3) +
   labs(subtitle = "7-day moving average") + theme(plot.subtitle=element_text(size=8, color="blue"))
 
