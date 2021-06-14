@@ -38,9 +38,9 @@ data_covid<-data_covid %>% select(Zone,Ward,Area,Location,Street,Cases,importDat
 # Compare to past data
 Chennai_covid_data<-read.table(master_file_name,header=TRUE, row.names=NULL)
 Chennai_covid_data<-tibble(Chennai_covid_data)
-Chennai_covid_data %>% group_by(importDate) %>% summarise(n()) %>% arrange(desc(importDate))
+Chennai_covid_data %>% group_by(importDate) %>% summarise(n(),sum(Cases)) %>% arrange(desc(importDate))
 # Compare data from Today
-data_covid %>% group_by(importDate) %>% summarize(n())
+data_covid %>% group_by(importDate) %>% summarize(n(),sum(Cases))
 
 #***** ETL COMPLETE *****#
 # QA on more than 10 cases
