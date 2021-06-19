@@ -4,7 +4,7 @@
 lapply(c("tidyverse","rvest","hrbrthemes","viridis","plotly","scales","fs"), library, character.only = TRUE)
 
 # DEFINE Variables
-currDate<-Sys.Date()
+currDate<-Sys.Date()-1
 file_name<-paste0("data_covid_",currDate)
 master_file_name<-paste0("/home/arunkumar/Documents/GitHub/ChennaiCovid/data_covid.csv")
 data_covid<-tibble()
@@ -35,12 +35,12 @@ data_covid_ab_3<-tibble(data_covid_ab_3)
 data_covid<-union_all(data_covid_lt_3,data_covid_ab_3) 
 data_covid<-data_covid %>% select(Zone,Ward,Area,Location,Street,Cases,importDate) %>% distinct()
 
+# Compare data from Today
+data_covid %>% group_by(importDate) %>% summarize(n(),sum(Cases))
 # Compare to past data
 Chennai_covid_data<-read.table(master_file_name,header=TRUE, row.names=NULL)
 Chennai_covid_data<-tibble(Chennai_covid_data)
 Chennai_covid_data %>% group_by(importDate) %>% summarise(n(),sum(Cases)) %>% arrange(desc(importDate))
-# Compare data from Today
-data_covid %>% group_by(importDate) %>% summarize(n(),sum(Cases))
 
 #***** ETL COMPLETE *****#
 # QA on more than 10 cases
